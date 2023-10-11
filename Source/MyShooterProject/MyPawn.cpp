@@ -94,7 +94,8 @@ void AMyPawn::Fire() {
 		// spawn the projectile
 		World->SpawnActor<AMyShooterProjectProjectile>(SpawnLocation, FireRotation);
 	}
-
+	//연사 확인
+	
 	//World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AMyPawn::ShotTimerExpired, FireRate);
 }
 
