@@ -95,7 +95,7 @@ void AMyPawn::Fire() {
 		World->SpawnActor<AMyShooterProjectProjectile>(SpawnLocation, FireRotation);
 	}
 	//연사 확인
-	
+	//발사 버튼 홀드로 연사가 되는 방향 고려
 	//World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AMyPawn::ShotTimerExpired, FireRate);
 }
 
