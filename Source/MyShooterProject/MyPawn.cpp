@@ -83,6 +83,7 @@ void AMyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+//사용하는 무기의 종류 변화 고려
 void AMyPawn::Fire() {
 	const FRotator FireRotation = GetActorForwardVector().Rotation();
 	// Spawn projectile at an offset from this pawn
