@@ -79,26 +79,39 @@ void AMyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AMyPawn::MoveRight);
 	/*PlayerInputComponent->BindAxis(FireForwardBinding);
 	PlayerInputComponent->BindAxis(FireRightBinding);*/
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyPawn::Fire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyPawn::StartFire);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AMyPawn::StopFire);
 
 }
-
+void AMyPawn::StartFire() {
+	LockFiring = true;
+	Fire();
+}
+void AMyPawn::StopFire() {
+	LockFiring = false;
+}
 //사용하는 무기의 종류 변화 고려
-void AMyPawn::Fire() {
+void AMyPawn::Fire() {	
 	const FRotator FireRotation = GetActorForwardVector().Rotation();
 	// Spawn projectile at an offset from this pawn
 	const FVector SpawnLocation = GetActorLocation() + FireRotation.RotateVector(GunOffset);
-
-	UWorld* const World = GetWorld();
-	if (World != nullptr)
-	{
-		// spawn the projectile
-		World->SpawnActor<AMyShooterProjectProjectile>(SpawnLocation, FireRotation);
-	}
 	//연사 확인
 	//발사 버튼 홀드 -> 연사, 버튼 오프 -> 연사 해제
 	// 타이머 사용 필요
-	//World->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AMyPawn::ShotTimerExpired, FireRate);
+	if (LockFiring) {
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle_ShotTimerExpired, this, &AMyPawn::Fire, FireRate, false);
+	}
+	else {
+		GetWorld()->GetTimerManager().ClearTimer(TimerHandle_ShotTimerExpired);
+	}
+	// spawn the projectile
+	UWorld* const World = GetWorld();
+	if (World != nullptr)
+	{
+		
+		World->SpawnActor<AMyShooterProjectProjectile>(SpawnLocation, FireRotation);
+	}
+	
 }
 
 void AMyPawn::MoveForward(float value) {

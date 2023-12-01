@@ -85,6 +85,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void StartFire();
+	void StopFire();
 	void Fire();
 
 	void MoveForward(float value);
