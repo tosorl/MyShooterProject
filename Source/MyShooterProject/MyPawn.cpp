@@ -91,6 +91,7 @@ void AMyPawn::StopFire() {
 	LockFiring = false;
 }
 //사용하는 무기의 종류 변화 고려
+// 상태 패턴으로 무기 다양화 고려
 //타이머 갱신으로 연사 방식 구현, 타이머에 해당되는 코드는 별도의 함수로 분리
 void AMyPawn::Fire() {	
 	const FRotator FireRotation = GetActorForwardVector().Rotation();
